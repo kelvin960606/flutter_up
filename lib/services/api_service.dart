@@ -70,19 +70,24 @@ class ApiService extends GetxService {
   ) async {
     dio.options.baseUrl = baseUrl ?? apiEndpoint;
     var response;
-
-    if (type == 'get') {
-      response = await dio.get(path, queryParameters: data);
-    } else if (type == 'post') {
-      response = await dio.post(path, data: data);
-    } else if (type == 'put') {
-      response = await dio.put(path, data: data);
-    } else if (type == 'delete') {
-      response = await dio.delete(path, data: data);
-    } else if (type == 'patch') {
-      response = await dio.patch(path, queryParameters: data);
-    } else {
-      response = await dio.get(path);
+    switch (type) {
+      case 'get':
+        response = await dio.get(path, queryParameters: data);
+        break;
+      case 'post':
+        response = await dio.post(path, data: data);
+        break;
+      case 'put':
+        response = await dio.put(path, data: data);
+        break;
+      case 'delete':
+        response = await dio.delete(path, data: data);
+        break;
+      case 'patch':
+        response = await dio.patch(path, queryParameters: data);
+        break;
+      default:
+        response = await dio.get(path);
     }
     var json = jsonDecode(response.toString());
     return json;
